@@ -4,44 +4,54 @@ if (typeof window.INJECTION_DRAW_FN === 'undefined') {
 
 (function () {
 
-    const oldGetMedia = navigator.mediaDevices.getUserMedia;
-    function fakeGetUserMedia(options) {
-        return oldGetMedia.call(navigator.mediaDevices, options).then((stream) => {
-            const track = stream.getVideoTracks()[0];
-            if (!track) {
-                return stream;
-            }
+    function hijackStream(stream) {
+        const track = stream.getVideoTracks()[0];
+        if (!track) {
+            return stream;
+        }
 
-            const newStream = new MediaStream();
-            stream.getAudioTracks().forEach((track) => newStream.addTrack(track));
+        const newStream = new MediaStream();
+        stream.getAudioTracks().forEach((track) => newStream.addTrack(track));
 
-            const canvas = document.createElement('canvas');
-            const video = document.createElement('video');
-            video.setAttribute('autoplay', true);
-            video.srcObject = stream;
-            const settings = track.getSettings();
-            canvas.width = settings.width;
-            canvas.height = settings.height;
+        const canvas = document.createElement('canvas');
+        const video = document.createElement('video');
+        video.setAttribute('autoplay', true);
+        video.srcObject = stream;
+        const settings = track.getSettings();
+        canvas.width = settings.width;
+        canvas.height = settings.height;
 
-            drawFn = () => INJECTION_DRAW_FN(canvas, video);
-            drawFn();
-            const interval = setInterval(drawFn, 1000 / settings.frameRate);
+        drawFn = () => INJECTION_DRAW_FN(canvas, video);
+        drawFn();
+        const interval = setInterval(drawFn, 1000 / settings.frameRate);
 
-            const newTrack = canvas.captureStream(track.frameRate).getVideoTracks()[0];
-            const oldStop = newTrack.stop;
-            newTrack.stop = function () {
-                clearInterval(interval);
-                stream.getVideoTracks().forEach((track) => track.stop());
-                oldStop.call(this);
-            };
-            newStream.addTrack(newTrack);
+        const newTrack = canvas.captureStream(track.frameRate).getVideoTracks()[0];
+        const oldStop = newTrack.stop;
+        newTrack.stop = function () {
+            clearInterval(interval);
+            stream.getVideoTracks().forEach((track) => track.stop());
+            oldStop.call(this);
+        };
+        newStream.addTrack(newTrack);
 
-            return newStream;
-        });
+        return newStream;
     }
 
-    navigator.getUserMedia = () => console.warn('deprecated method');
-    navigator.webkitGetUserMedia = () => console.warn('deprecated method');
-    navigator.mediaDevices.getUserMedia = fakeGetUserMedia;
+    if (navigator.getUserMedia) {
+        const oldDeprecatedMethod = navigator.getUserMedia;
+        navigator.getUserMedia = (constraints, successCb, errorCb) => {
+            oldDeprecatedMethod.call(navigator, constraints, (stream) => {
+                if (successCb) {
+                    successCb(hijackStream(stream));
+                }
+            }, errorCb);
+        };
+        navigator.webkitGetUserMedia = navigator.getUserMedia;
+    }
+
+    const oldMethod = navigator.mediaDevices.getUserMedia;
+    navigator.mediaDevices.getUserMedia = (options) => {
+        return oldMethod.call(navigator.mediaDevices, options).then(hijackStream);
+    };
 
 })();
