@@ -1,6 +1,8 @@
 # camera-hijack
 
-This is an experiment to use a chrome extension to mess with the input of the webcam.
+This is a chrome extension that allows you to manipulate the images that webpages read from your webcam. Notably, you can use it to manipulate your camera feed on video chats. The extension gives you as much freedom as possible, by letting you provide a piece of JS code that draws each frame.
+
+![Screenshot of the extension](screenshot.png)
 
 # Examples
 
