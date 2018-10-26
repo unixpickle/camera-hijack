@@ -20,14 +20,15 @@
     </head>
     <body>
         <textarea id="code">
-        function(canvas, video) {
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0);
-            // Example of putting a rectangle over the video.
-            // ctx.fillRect(100, 100, 50, 50);
-        }
+function(canvas, video) {
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    // Example of putting a rectangle over the video.
+    // ctx.fillRect(100, 100, 50, 50);
+}
         </textarea>
         <button id="update-button">Update</button>
+        <button id="reset-button">Reset</button>
         <script type="text/javascript" src="popup.js"></script>
     </body>
 </html>

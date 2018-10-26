@@ -25,3 +25,12 @@ document.getElementById('update-button').onclick = () => {
         });
     });
 };
+
+document.getElementById('reset-button').onclick = () => {
+    document.getElementById('code').value = `function(canvas, video) {
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    // Example of putting a rectangle over the video.
+    // ctx.fillRect(100, 100, 50, 50);
+}`;
+};
