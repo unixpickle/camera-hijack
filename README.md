@@ -4,6 +4,14 @@ This is a chrome extension that allows you to manipulate the images that webpage
 
 ![Screenshot of the extension](screenshot.png)
 
+# Installation
+
+ * Go to `chrome://extensions`.
+ * Enable developer mode (should be a switch in the top-right corner).
+ * Click `Load Unpacked`
+ * Select the `plugin` directory in this repository.
+ * This should add a button for the extension to the menu bar.
+
 # Examples
 
 Identity function:
