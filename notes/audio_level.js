@@ -20,14 +20,14 @@ function(canvas, video) {
 
     if ('undefined' === typeof window.HACK_VOLUME_LEVEL) {
         setupAudioLevel();
-        window.ROLLING_MAX = [];
+        window.HACK_ROLLING_MAX = [];
     }
 
-    window.ROLLING_MAX.push(window.HACK_VOLUME_LEVEL);
-    while (window.ROLLING_MAX.length > 100) {
-        window.ROLLING_MAX.shift();
+    window.HACK_ROLLING_MAX.push(window.HACK_VOLUME_LEVEL);
+    while (window.HACK_ROLLING_MAX.length > 100) {
+        window.HACK_ROLLING_MAX.shift();
     }
-    const maxVolume = window.ROLLING_MAX.reduce((a, b) => Math.max(a, b), 0.001);
+    const maxVolume = window.HACK_ROLLING_MAX.reduce((a, b) => Math.max(a, b), 0.001);
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
