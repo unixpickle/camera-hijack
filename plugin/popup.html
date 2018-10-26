@@ -4,17 +4,47 @@
         <style>
         body {
             text-align: center;
-            width: 280px;
+            width: 320px;
             margin: 0;
             padding: 0 0 10px 0;
         }
         #code {
             display: block;
             margin: 10px 10px;
-            width: 260px;
-            height: 100px;
+            width: 300px;
+            height: 150px;
             resize: none;
             box-sizing: border-box;
+            font-family: Menlo, monospace;
+            font-size: 12px;
+            background-color: #fffedb;
+        }
+        #code:focus {
+            outline: 0;
+        }
+        #code, button {
+            border: 1px solid #dadada;
+            border-radius: 4px;
+        }
+        button {
+            padding: 7px 16px;
+            margin: 2.5px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: Roboto, system-ui, sans-serif;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f8f8f8;
+        }
+        button:focus {
+            outline: 0;
+        }
+        #reset-button {
+            color: #c03930;
+        }
+        #update-button {
+            color: #2879e3;
         }
         </style>
     </head>
