@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+        body {
+            text-align: center;
+            width: 280px;
+            margin: 0;
+            padding: 0 0 10px 0;
+        }
+        #code {
+            display: block;
+            margin: 10px 10px;
+            width: 260px;
+            height: 100px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        </style>
+    </head>
+    <body>
+        <textarea id="code">
+        function(canvas, video) {
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            // Example of putting a rectangle over the video.
+            // ctx.fillRect(100, 100, 50, 50);
+        }
+        </textarea>
+        <button id="update-button">Update</button>
+        <script type="text/javascript" src="popup.js"></script>
+    </body>
+</html>

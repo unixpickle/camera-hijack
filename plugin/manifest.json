@@ -1,0 +1,35 @@
+{
+    "name": "camera-hijack",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Mess with the webcam API for all websites",
+    "permissions": [
+        "tabs",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "browser_action": {
+        "default_icon": {
+            "19": "images/icon19.png",
+            "38": "images/icon38.png"
+        },
+        "default_title": "camera-hijack",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*/*",
+                "https://*/*"
+            ],
+            "js": [
+                "content_script.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        "injection.js"
+    ]
+}
