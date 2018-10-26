@@ -1,12 +1,26 @@
 const codeElem = document.getElementById('code');
+const defaultCode = `function(canvas, video) {
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    // Example of putting a rectangle over the video.
+    // ctx.fillRect(100, 100, 50, 50);
+}`;
 
-chrome.storage.sync.get(['code'], function (result) {
-    if (result.code) {
-        codeElem.value = result.code;
-    }
-});
+function initialize() {
+    chrome.storage.sync.get(['code'], function (result) {
+        if (result.code) {
+            codeElem.value = result.code;
+        }
+    });
 
-document.getElementById('update-button').onclick = () => {
+    document.getElementById('update-button').onclick = updateCode;
+    document.getElementById('reset-button').onclick = () => {
+        document.getElementById('code').value = defaultCode;
+        updateCode();
+    };
+}
+
+function updateCode() {
     const code = codeElem.value;
     const escaped = JSON.stringify('window.INJECTION_DRAW_FN=' + code + ';');
     const injectCode = `
@@ -24,13 +38,6 @@ document.getElementById('update-button').onclick = () => {
             }, function () { });
         });
     });
-};
+}
 
-document.getElementById('reset-button').onclick = () => {
-    document.getElementById('code').value = `function(canvas, video) {
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0);
-    // Example of putting a rectangle over the video.
-    // ctx.fillRect(100, 100, 50, 50);
-}`;
-};
+initialize();
