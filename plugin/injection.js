@@ -13,6 +13,10 @@ if (typeof window.INJECTION_DRAW_FN === 'undefined') {
         const newStream = new MediaStream();
         stream.getAudioTracks().forEach((track) => newStream.addTrack(track));
 
+        // Prevent the video object from playing an extra copy of
+        // the audio, thus causing echo+feedback.
+        stream.getAudioTracks().forEach((track) => stream.removeTrack(track));
+
         const canvas = document.createElement('canvas');
         const video = document.createElement('video');
         video.setAttribute('autoplay', true);
