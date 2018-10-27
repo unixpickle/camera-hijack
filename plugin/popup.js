@@ -33,9 +33,7 @@ function updateCode() {
     chrome.storage.sync.set({ code: code });
     chrome.tabs.query({}, (tabs) => {
         tabs.forEach((tab) => {
-            chrome.tabs.executeScript(tab.id, {
-                code: injectCode
-            }, function () { });
+            chrome.tabs.executeScript(tab.id, { code: injectCode });
         });
     });
 }
